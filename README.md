@@ -30,13 +30,16 @@ Due to the nature of this game, the only objects that should exists is the secre
 The secret object should have the following methods and interactions:
 
 ### Object Methods
-- display_status()
+- display_status() X
 - save_game()
-- select_secret_word()
-- display_secret_word()
+- select_secret_word() X
+- display_secret_word() 
   - This method would be called if the game is lost
-- play_choice(char)
+- play_choice(char) X
   - Takes in character and either puts it in wrong choices, or correct choices.
+- is_complete?
+  - checks to see if your correct choices are all in the secret word
+  - If true then it's a win!
   
 
 #### select_secret_word()
