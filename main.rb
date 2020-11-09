@@ -26,21 +26,32 @@ class Secret
   def display_status
     # The purpose of this Method is to display: wrong guess counter, wrong guess choices,
     # and correct choices
-    puts "Wrong Counter: #{wrong_counter}"
+    puts "\nWrong Counter: #{wrong_counter}"
     puts "Wrong Choices: #{wrong_guesses.join(", ")}"
-    disp = secret_word.chars.map {|ltr| correct_choices.include?(ltr) ? ltr : "_ "}
+    disp = secret_word.chars.map {|ltr| correct_choices.include?(ltr) ? ltr : "-"}
     disp.each { |l| print l}
     puts ""    
 
   end
 
   def play_choice(char)
-
+    if secret_word.chars.include?(char)
+      self.correct_choices.push(char)
+    else
+      self.wrong_guesses.push(char)
+      self.wrong_counter += 1
+    end
   end
   # def self.load_game(filename)
   # end
 end
 
 game = Secret.new
-puts game.display_status
+game.display_status
+game.play_choice('a')
+game.display_status
+game.play_choice('e')
+game.display_status
+game.play_choice('t')
+game.display_status
 puts game.secret_word
