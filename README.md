@@ -23,6 +23,9 @@ Hangman Project from The Odin Project
 5. handle win or lose
 6. exit
 
+# How to play
+Download entire project locally and run `ruby main.rb`. The game will ask if you want a new same or a saved game. saved games will be saved in `./saved/` and you must copy the whole filename with extension and paste it on the terminal. You have 6 mistakes possible before you lose the game. If you wish to save the game for later, simply type `save` and enter on any guess in the game.
+
 # Objects
 Due to the nature of this game, the only objects that should exists is the secret object. The game will be handled in a while loop.
 
