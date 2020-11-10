@@ -1,3 +1,5 @@
+require 'json'
+
 class Secret
   attr_reader :secret_word
   attr_accessor :wrong_counter, :wrong_guesses, :correct_choices
@@ -45,6 +47,24 @@ class Secret
 
   def is_complete?
     secret_word.chars.all? { |l| self.correct_choices.include?(l)}
+  end
+
+  def save_game
+    data = JSON.dump({
+      secret_word: self.secret_word,
+      wrong_counter: self.wrong_counter,
+      wrong_guesses: self.wrong_guesses,
+      correct_choices: self.correct_choices
+    })
+
+    t = Time.now
+    filename = "game-#{t.to_a[4]}-#{t.to_a[3]}-#{t.to_a[1]}-#{t.to_a[0]}.json"
+    
+    Dir.mkdir 'saved' unless Dir.exist? 'saved'
+    File.open("saved/#{filename}", 'w') do |f|
+      f.write(data)
+    end
+
   end
   # def self.load_game(filename)
   # end
