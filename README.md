@@ -41,6 +41,20 @@ The secret object should have the following methods and interactions:
   - checks to see if your correct choices are all in the secret word
   - If true then it's a win!
   
+#### initialize
+
+```Ruby
+def initialize(wrong_cnt=0, wrong_gsses=[], correct_chcs=[], secret=nil)
+    if secret.nil?
+      @secret_word = self.select_secret_word
+    else
+      @secret_word = secret
+    end
+    @wrong_counter = wrong_cnt
+    @wrong_guesses = wrong_gsses
+    @correct_choices = correct_chcs
+end
+```
 
 #### select_secret_word()
 
