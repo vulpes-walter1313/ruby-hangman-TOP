@@ -21,8 +21,12 @@ while true
     game.save_game
     abort("Just saved the game for you! Come again!")
   end
-
-  game.play_choice(choice)
+  if game.correct_choices.include?(choice) || game.wrong_guesses.include?(choice)
+    puts "you already made that guess"
+    redo
+  else
+    game.play_choice(choice)
+  end
   game.display_status
 
   if game.wrong_counter == 6
