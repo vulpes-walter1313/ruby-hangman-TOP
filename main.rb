@@ -3,8 +3,12 @@ require 'json'
 class Secret
   attr_reader :secret_word
   attr_accessor :wrong_counter, :wrong_guesses, :correct_choices
-  def initialize(wrong_cnt=0, wrong_gsses=[], correct_chcs=[])
-    @secret_word = self.select_secret_word
+  def initialize(wrong_cnt=0, wrong_gsses=[], correct_chcs=[], secret=nil)
+    if secret.nil?
+      @secret_word = self.select_secret_word
+    else
+      @secret_word = secret
+    end
     @wrong_counter = wrong_cnt
     @wrong_guesses = wrong_gsses
     @correct_choices = correct_chcs
@@ -66,21 +70,42 @@ class Secret
     end
 
   end
-  # def self.load_game(filename)
-  # end
+  def self.load_game(filename)
+    data = nil
+    File.open(filename) do |f|
+      data = JSON.load(f.read)
+    end
+    self.new(data['wrong_counter'], data['wrong_guesses'], data['correct_choices'], data['secret_word'])
+  end
 end
 
-game = Secret.new
+puts "New game(n) or saved game(s)? "
+new_save_choice = gets.chomp.downcase
+if new_save_choice == 's'
+  puts "What's the filename?"
+  name = gets.chomp.downcase
+  filename = "saved/#{name}"
+
+  game = Secret.load_game(filename)
+else
+  game = Secret.new
+end
 
 while true
   game.display_status
-  puts "\nWhat's your next choice, Padawan? "
+  puts "\nWhat's your next choice, Padawan? (enter 'save' to save the current game)"
   choice = gets.chomp.downcase
+  
+  if choice == 'save'
+    game.save_game
+    abort("Just saved the game for you! Come again!")
+  end
+
   game.play_choice(choice)
   game.display_status
 
   if game.wrong_counter == 6
-    puts "you've lost! the word was #{game.secret_word}"
+    puts "You've lost! The word was #{game.secret_word}"
     break
   elsif game.is_complete?
     puts "You've Won!!"
