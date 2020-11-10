@@ -42,16 +42,29 @@ class Secret
       self.wrong_counter += 1
     end
   end
+
+  def is_complete?
+    secret_word.chars.all? { |l| self.correct_choices.include?(l)}
+  end
   # def self.load_game(filename)
   # end
 end
 
 game = Secret.new
-game.display_status
-game.play_choice('a')
-game.display_status
-game.play_choice('e')
-game.display_status
-game.play_choice('t')
-game.display_status
-puts game.secret_word
+
+while true
+  game.display_status
+  puts "\nWhat's your next choice, Padawan? "
+  choice = gets.chomp.downcase
+  game.play_choice(choice)
+  game.display_status
+
+  if game.wrong_counter == 6
+    puts "you've lost! the word was #{game.secret_word}"
+    break
+  elsif game.is_complete?
+    puts "You've Won!!"
+    puts "The word was #{game.secret_word}! You're now a Jedi!"
+    break
+  end
+end
